@@ -1,7 +1,3 @@
-Here is a **clean, professional, student-friendly README.md** for your project.
-You can copy–paste it directly into a **README.md** file on GitHub or in your submission folder.
-
----
 
 # 📘 **Stock Price Prediction Using Linear & Polynomial Regression**
 
