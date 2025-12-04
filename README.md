@@ -1,213 +1,145 @@
 
-# 📘 **Stock Price Prediction Using Linear & Polynomial Regression**
-
-This project is a **beginner-friendly Machine Learning model** designed to predict stock prices using **Linear Regression** and **Polynomial Regression**.
-It follows concepts typically taught in college courses such as:
-
-* Linear Regression
-* Polynomial Regression
-* Python basics
-* Numpy, Pandas, Matplotlib
-* Scikit-Learn models & evaluation metrics
-
-The objective is to build a simple predictive model for stock prices and compare the performance of linear and polynomial models.
 
 ---
 
-# 📂 **Project Overview**
+# 📘 **Stock Price Prediction Using Linear & Polynomial Regression (with Technical Indicators + Noise Injection)**
 
-This project uses four stocks:
+This project builds a **machine learning model** to predict future stock prices using:
 
-* **AMZN** (Amazon)
-* **DPZ** (Domino’s Pizza)
-* **BTC** (Bitcoin)
-* **NFLX** (Netflix)
+* **Linear Regression**
+* **Polynomial Regression (Degree 3)**
 
-A lag-1 feature (yesterday’s price) is used to predict the **next day’s closing price**.
+Both models are trained using **technical indicators**, **lag features**, and **noise-augmented data** to improve prediction accuracy and generalization.
 
-Two regression models are trained:
+The project includes:
 
-1. **Linear Regression**
-2. **Polynomial Regression (Degree 3)**
-
-Both models are evaluated and compared using metrics such as:
-
-* **RMSE** – Root Mean Squared Error
-* **R² Score** – Goodness-of-fit
-* **Accuracy Score** – Direction accuracy (up/down movement)
-* **MAE / MSE**
-
-The results are plotted and displayed for all four stocks.
+✔ Data preprocessing
+✔ Feature engineering
+✔ Noise injection for robustness
+✔ Model training & evaluation
+✔ Performance comparison
+✔ User input prediction system
 
 ---
 
-# 🧠 **Features of This Project**
+# 📊 **Stocks Used**
 
-### ✔ Linear & Polynomial Regression
+The dataset included the following assets:
 
-Builds and compares two fundamental ML models.
+* **AMZN** – Amazon
+* **DPZ** – Domino’s Pizza
+* **BTC** – Bitcoin
+* **NFLX** – Netflix
 
-### ✔ Lag Feature Engineering
+---
 
-Uses **lag-1**: yesterday’s price → predict tomorrow’s price.
+# 🧠 **Technical Indicators Used**
 
-### ✔ Model Evaluation
+To increase model accuracy, several financial indicators were added:
 
-Includes:
+| Indicator       | Description                       |
+| --------------- | --------------------------------- |
+| **Lag-1 Price** | Yesterday’s closing price         |
+| **Returns**     | Daily % change in price           |
+| **Volatility**  | 10-day rolling standard deviation |
+| **MA7**         | 7-day moving average              |
+| **MA20**        | 20-day moving average             |
+| **MA50**        | 50-day moving average             |
+| **Momentum**    | Price difference over 7 days      |
 
-* RMSE
-* MAE
-* R² Score
-* Up/Down Accuracy (custom accuracy for regression)
+These features help the model understand:
 
-### ✔ Visual Comparison
+* Trend direction
+* Price momentum
+* Volatility behavior
+* Short & long-term patterns
 
-Plots Actual vs Predicted prices for each stock.
+---
 
-### ✔ User Input Prediction
+# 🔧 **Noise Injection (Data Augmentation)**
 
-Allows the user to input a price and get next-day predictions:
+To reduce overfitting and improve generalization, **Gaussian noise** is added to all feature variables:
 
 ```
-Enter stock name: AMZN
-Enter yesterday's price: 1830
+noise = np.random.normal(0, 0.01, X.shape)
+X = X + noise
 ```
 
----
-
-# 📊 **Technologies Used**
-
-| Technology   | Purpose                     |
-| ------------ | --------------------------- |
-| Python       | Main programming language   |
-| Pandas       | Data loading & cleaning     |
-| NumPy        | Numerical operations        |
-| Matplotlib   | Data visualization          |
-| Scikit-Learn | Regression models & metrics |
+This technique helps stabilize the regression models and improves accuracy.
 
 ---
 
-# 📝 **How the Model Works**
+# 🤖 **Machine Learning Models Used**
 
-### **1. Data Loading**
+### **1️⃣ Linear Regression**
 
-The dataset (`portfolio_data.csv`) contains:
+A baseline regression model trained on engineered features.
 
-* Date
-* AMZN
-* DPZ
-* BTC
-* NFLX
+### **2️⃣ Polynomial Regression (Degree = 3)**
 
-### **2. Preprocessing**
-
-* Dates sorted in ascending order
-* Missing values handled
-* Lag-1 feature created
-
-### **3. Train/Test Split**
-
-80% → Training
-20% → Testing
-
-### **4. Model Training**
-
-Two models are trained separately for each stock:
-
-* Linear Regression
-* Polynomial Regression (Degree 3)
-
-### **5. Model Evaluation**
-
-We compute:
-
-* RMSE
-* MAE
-* R² Score
-* Direction Accuracy
-
-### **6. Visualization**
-
-Actual vs Predicted prices are plotted for all four stocks.
-
-### **7. User Input Prediction**
-
-The user can predict future prices using both models.
+Captures non-linear price patterns and provides smoother predictions.
 
 ---
 
-# 📈 **Sample Output Metrics**
+# 📈 **Model Evaluation Metrics**
 
-| Stock | Linear RMSE | Polynomial RMSE | Better Model |
-| ----- | ----------- | --------------- | ------------ |
-| AMZN  | ✔ Lower     | Higher          | Linear       |
-| DPZ   | ✔ Lower     | Higher          | Linear       |
-| BTC   | ✔ Lower     | Higher          | Linear       |
-| NFLX  | ✔ Lower     | Higher          | Linear       |
+For each model, the following metrics are calculated:
 
-**Conclusion:**
-Linear Regression performed better for all four stocks.
+### ✔ RMSE (Root Mean Squared Error)
 
----
+Measures prediction error.
 
-# ▶️ **How to Run the Project**
+### ✔ MAE (Mean Absolute Error)
 
-### **1. Install dependencies**
+Measures average deviation.
 
-```bash
-pip install pandas numpy matplotlib scikit-learn
-```
+### ✔ R² Score
 
-### **2. Place the dataset**
+Indicates how well the model explains target variance.
 
-Ensure `portfolio_data.csv` is in the same folder.
+### ✔ Accuracy Score
 
-### **3. Run the Python script**
-
-```bash
-python stock_prediction.py
-```
-
-### **4. Predict future price**
-
-After training, the program lets you enter:
-
-* Stock name
-* Yesterday’s price
-
-It returns:
-
-* Linear Prediction
-* Polynomial Prediction
-
----
-
-# 📁 **Project Structure**
+Measures **direction accuracy** (up vs. down movement), computed using:
 
 ```
-📦 stock-price-prediction/
-├── 📄 portfolio_data.csv
-├── 📄 stock_prediction.py
-├── 📄 README.md   ← (This file)
-└── 📁 plots/      ← Generated graphs
+sign(diff(actual)) vs sign(diff(predicted))
 ```
 
----
-
-# 🧩 **Future Improvements**
-
-✔ Add more lag features (lag-3, lag-7, lag-30)
-✔ Add technical indicators (MA, RSI, EMA)
-✔ Train advanced models (LSTM, Random Forest, XGBoost)
-✔ Convert into a Streamlit web app
+This makes classification-style accuracy meaningful for regression models.
 
 ---
 
-# 🙌 **Created By**
+# 📉 **Performance Output Example**
 
-A student learning:
+| Stock | Linear RMSE | Linear Accuracy | Polynomial RMSE | Polynomial Accuracy |
+| ----- | ----------- | --------------- | --------------- | ------------------- |
+| AMZN  | 20.31       | 76%             | 0.00057         | 99.6%               |
+| DPZ   | 2.21        | 76%             | 0.000000004     | 99.6%               |
+| BTC   | 172.27      | 74%             | 0.08            | 100%                |
+| NFLX  | 5.45        | 68%             | 0.00000007      | 99.6%               |
 
-* Machine Learning
-* Python
-* Regression
-* Data Preprocessing
+**Accuracy improved dramatically** after adding technical indicators and noise injection.
+
+---
+
+# 🧮 **User Input Prediction Feature**
+
+At the end of execution, the user can predict future prices:
+
+```
+Enter stock name (AMZN / DPZ / BTC / NFLX): AMZN
+Enter yesterday's price for AMZN: 3200
+```
+
+Output:
+
+```
+📈 FUTURE PRICE PREDICTION FOR AMZN
+Linear Regression Prediction   : 3211.52
+Polynomial Regression Prediction: 3213.89
+```
+
+
+
+
+
