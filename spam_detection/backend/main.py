@@ -1,44 +1,52 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import joblib
-import os
-import numpy as np
 
 app = FastAPI()
 
-# Load model & vectorizer
-# Using try-except block to handle missing files gracefully during initial setup
+# CORS FIX
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or ["https://amdl-one.vercel.app"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Load model safely
 try:
     model = joblib.load("model.pkl")
     vectorizer = joblib.load("vectorizer.pkl")
-    print("Model and Vectorizer loaded successfully.")
+    print("Model loaded successfully")
 except Exception as e:
-    print(f"Error loading model files: {e}")
+    print("Error loading model files:", e)
     model = None
     vectorizer = None
+
 
 class Message(BaseModel):
     text: str
 
+
 @app.get("/")
 def home():
-    return {"message": "Spam Detection API is running. Send POST request to /predict"}
+    return {"message": "Spam Detection API is running"}
+
 
 @app.post("/predict")
 def predict_spam(data: Message):
     if model is None or vectorizer is None:
-        raise HTTPException(status_code=503, detail="Model not loaded. Please ensure model.pkl and vectorizer.pkl are present.")
-    
-    try:
-        message = [data.text]
-        vector = vectorizer.transform(message)
-        prediction = model.predict(vector)[0]
-        prob = model.predict_proba(vector)[0][1]
+         return {"error": "Model not loaded properly on server."}
 
-        return {
-            "prediction": int(prediction),
-            "ham_probability": float(prob),
-            "spam_probability": float(1 - prob)
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    message = [data.text]
+    vector = vectorizer.transform(message)
+    pred = model.predict(vector)[0]
+    prob = model.predict_proba(vector)[0][1]
+    
+    return {
+        "prediction": int(pred),
+        "ham_probability": float(prob),
+        "spam_probability": float(1 - prob)
+    }
+

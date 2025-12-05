@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="background-glow"></div>
     <div class="container">
@@ -43,7 +45,7 @@
                 </div>
             </div>
         </main>
-        
+
         <footer>
             <p>Powered by FastAPI & Scikit-Learn</p>
         </footer>
@@ -67,23 +69,23 @@
 
             try {
                 // Replace with your actual Render backend URL
-                const response = await fetch("https://your-app.onrender.com/predict", {
+                const response = await fetch("https://amdl.onrender.com/predict", {
                     method: "POST",
-                    headers: {"Content-Type": "application/json"},
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ text })
                 });
 
                 if (!response.ok) throw new Error("API Error");
 
                 const data = await response.json();
-                
+
                 loading.classList.add("hidden");
                 resultContent.classList.remove("hidden");
-                
+
                 const isSpam = data.prediction === 0; // Assuming 0 is Spam based on user request, but usually 1 is spam. 
                 // Wait, user request said: Spam (0), Ham (1).
                 // Let's stick to that mapping.
-                
+
                 const predictionText = document.getElementById("prediction-text");
                 const icon = document.getElementById("icon");
                 const probBar = document.getElementById("prob-bar");
@@ -117,4 +119,5 @@
         }
     </script>
 </body>
+
 </html>
