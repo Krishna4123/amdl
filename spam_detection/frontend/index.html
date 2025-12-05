@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Spam Detector</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-glow"></div>
+    <div class="container">
+        <header>
+            <h1>AI Spam Detector</h1>
+            <p>Analyze your messages with advanced machine learning</p>
+        </header>
+
+        <main>
+            <div class="input-group">
+                <textarea id="msg" placeholder="Paste your message here to analyze..." rows="6"></textarea>
+                <div class="focus-border"></div>
+            </div>
+
+            <button onclick="predict()" id="checkBtn">
+                <span class="btn-text">Analyze Message</span>
+                <span class="btn-glow"></span>
+            </button>
+
+            <div id="result-container" class="hidden">
+                <div id="loading" class="hidden">
+                    <div class="spinner"></div>
+                    <p>Analyzing...</p>
+                </div>
+                <div id="result-content" class="hidden">
+                    <div id="icon"></div>
+                    <h2 id="prediction-text"></h2>
+                    <div class="probability-bar">
+                        <div class="bar-fill" id="prob-bar"></div>
+                    </div>
+                    <p id="probability-text"></p>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Powered by FastAPI & Scikit-Learn</p>
+        </footer>
+    </div>
+
+    <script>
+        async function predict() {
+            const text = document.getElementById("msg").value;
+            if (!text.trim()) return;
+
+            const btn = document.getElementById("checkBtn");
+            const resultContainer = document.getElementById("result-container");
+            const loading = document.getElementById("loading");
+            const resultContent = document.getElementById("result-content");
+
+            // Reset UI
+            resultContainer.classList.remove("hidden");
+            loading.classList.remove("hidden");
+            resultContent.classList.add("hidden");
+            btn.disabled = true;
+
+            try {
+                // Replace with your actual Render backend URL
+                const response = await fetch("https://your-app.onrender.com/predict", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({ text })
+                });
+
+                if (!response.ok) throw new Error("API Error");
+
+                const data = await response.json();
+                
+                loading.classList.add("hidden");
+                resultContent.classList.remove("hidden");
+                
+                const isSpam = data.prediction === 0; // Assuming 0 is Spam based on user request, but usually 1 is spam. 
+                // Wait, user request said: Spam (0), Ham (1).
+                // Let's stick to that mapping.
+                
+                const predictionText = document.getElementById("prediction-text");
+                const icon = document.getElementById("icon");
+                const probBar = document.getElementById("prob-bar");
+                const probText = document.getElementById("probability-text");
+
+                if (isSpam) {
+                    predictionText.textContent = "Spam Detected";
+                    predictionText.style.color = "#ff4b4b";
+                    icon.innerHTML = "🚫";
+                    probBar.style.backgroundColor = "#ff4b4b";
+                    probBar.style.width = `${data.spam_probability * 100}%`;
+                    probText.textContent = `${(data.spam_probability * 100).toFixed(1)}% Confidence`;
+                } else {
+                    predictionText.textContent = "Safe Message (Ham)";
+                    predictionText.style.color = "#00cc88";
+                    icon.innerHTML = "✔️";
+                    probBar.style.backgroundColor = "#00cc88";
+                    probBar.style.width = `${data.ham_probability * 100}%`;
+                    probText.textContent = `${(data.ham_probability * 100).toFixed(1)}% Confidence`;
+                }
+
+            } catch (error) {
+                console.error(error);
+                loading.classList.add("hidden");
+                resultContent.classList.remove("hidden");
+                document.getElementById("prediction-text").textContent = "Error connecting to server";
+                document.getElementById("prediction-text").style.color = "#ffaa00";
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
