@@ -1,0 +1,159 @@
+
+
+
+🔹 Overview of BIT Official Chatbot
+
+The Bannari Amman Institute of Technology chatbot is a **rule-based and NLP-assisted conversational system** that provides information related to:
+
+* Admissions
+* Courses & departments
+* Campus facilities
+* Placements
+* Contact details
+* Academic policies
+* Events and announcements
+
+It is typically embedded into the **official BIT website** and designed for **quick, structured responses** rather than open-ended conversations.
+
+---
+
+🔧 Technologies Used (Inferred & Industry-Standard)
+
+Natural Language Processing (NLP)
+
+The chatbot uses **basic NLP techniques** to understand user queries, such as:
+
+* Tokenization
+* Keyword extraction
+* Intent matching
+
+This allows it to map user questions like:
+
+> “What courses are offered?”
+> to predefined intents like:
+> `COURSE_INFORMATION`
+
+🔹 Likely tools:
+
+* Python NLP libraries (NLTK / spaCy)
+* JavaScript-based NLP (for frontend handling)
+* Dialogflow-style intent classification (or similar)
+
+---
+
+Rule-Based / Intent-Driven System
+
+Unlike generative AI models (ChatGPT, GPT-4, etc.), the BIT chatbot primarily operates on:
+
+* **Predefined question–answer pairs**
+* **Decision trees**
+* **Keyword-based routing**
+
+This ensures:
+✅ Accuracy
+✅ Institutional control
+✅ Safe and reliable answers
+
+---
+
+Backend Framework
+
+The backend is typically implemented using:
+
+* Python (Flask/Django) or
+* Node.js
+
+The backend:
+
+* Receives user input
+* Matches intent
+* Fetches response from a structured database or JSON file
+* Sends reply to frontend
+
+---
+
+Database / Knowledge Base
+
+The chatbot pulls responses from a **static or semi-dynamic knowledge base**, which may include:
+
+* MySQL / PostgreSQL
+* JSON / XML files
+* CMS-linked institutional data
+
+This database contains:
+
+* Department details
+* Admission rules
+* Placement statistics
+* Faculty contacts
+
+---
+Web Integration (Frontend)
+
+The chatbot interface is built using:
+
+* HTML
+* CSS
+* JavaScript
+
+It is often implemented as:
+
+* A floating chat widget
+* A modal window on the BIT website
+
+---
+
+Hosting & Deployment
+
+The chatbot is likely:
+
+* Hosted on BIT’s internal servers or cloud infrastructure
+* Integrated securely within the institute’s official domain
+* Designed for **high availability and low latency**
+
+---
+
+What the BIT Chatbot Does NOT Use
+
+Based on its behavior, the chatbot does **not** appear to use:
+
+* Large Language Models (LLMs) like GPT
+* Deep learning Transformer architectures
+* Generative text models
+
+This is intentional, to ensure:
+
+* Institutional reliability
+* No hallucinated answers
+* Controlled information dissemination
+
+---
+
+Architecture Summary (Simple Flow)
+
+```
+User Query
+   ↓
+NLP Processing
+   ↓
+Intent Recognition
+   ↓
+Rule / Knowledge Base Lookup
+   ↓
+Predefined Response
+   ↓
+User Interface
+```
+
+---
+
+Purpose of the Technology Choice
+
+BIT’s chatbot technology is optimized for:
+
+* Accuracy over creativity
+* Institutional trust
+* Fast response times
+* Easy maintenance
+* Compliance with academic standards
+
